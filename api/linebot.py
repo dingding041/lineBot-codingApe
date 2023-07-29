@@ -3,9 +3,8 @@ from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import (MessageEvent, TextMessage, TextSendMessage, TemplateSendMessage, CarouselColumn,
                             CarouselTemplate, MessageAction, URIAction, ImageCarouselColumn, ImageCarouselTemplate,
-                            ImageSendMessage,ConfirmTemplate)
+                            ImageSendMessage,ConfirmTemplate,ButtonsTemplate,URTAction,CarouselTemplate,URIAction)
 import os
-
 line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))
 line_handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
 
@@ -58,6 +57,134 @@ def handle_message(event):
             )
         
         line_bot_api.reply_message(event.replay_token,confirm_template)
+    if event.message.text == "按鈕樣板":
+        buttons_template = TemplateSendMessage(
+            alt_text = 'button template',
+            template = ButtonsTemplate(
+                
+                thumbnail_image_url = 'https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg',
+                
+                title = "Brown Care",
+                
+                text = 'Enjoy',
+                
+                actions =[
+                    
+                    MessageAction(
+                        
+                        lable = '咖啡好處?',
+                        text = '讓人有精神',
+                        
+                        ),
+                    URTAction(
+                        lable = '伯朗咖啡',
+                        url='https://www.mrbrown.com.tw/'
+                        
+                        
+                        
+                        )
+                    
+                    ]
+                
+                
+                )
+            
+            
+            )
+        line_bot_api.reply_message(event.replay_token,buttons_template)
+    if event.message.text == "橫向卷軸樣板":
+        carousel_template = TemplateSendMessage(
+            alt_text = "carousel template",
+            template = CarouselTemplate(
+                
+                columns =[
+                    
+                    CarouselColumn(
+                        
+                        thumbnail_image_url = 'https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg',
+                        title = "this is menu1",
+                        text = 'menu 1',
+                        action =[
+                            MessageAction(
+                                lable = '咖啡好處',
+                                text = '有精神',
+                                
+                                ),
+                            
+                            URTAction(
+                                lable = '伯朗咖啡',
+                                url='https://www.mrbrown.com.tw/'
+                                )
+                            ]
+                        ),
+                    CarouselColumn(
+                        
+                        thumbnail_image_url = 'https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg',
+                        title = "this is menu2",
+                        text = 'menu 2',
+                        action =[
+                            MessageAction(
+                                lable = '咖啡好處',
+                                text = '有精神',
+                                
+                                ),
+                            
+                            URTAction(
+                                lable = '伯朗咖啡',
+                                url='https://www.mrbrown.com.tw/'
+                 
+                                )         
+                            ]
+   
+                        ),
+    
+                    ]
+                )
+            )
+        line_bot_api.reply_message(event.replay_token,carousel_template)
+    if event.message.text == "圖片卷軸樣板":
+        image_template = TemplateSendMessage(
+            alt_text = "image template",
+            template = ImageCarouselTemplate(
+                columns =[
+                    ImageCarouselColumn(
+                        
+                        image_url="https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg"
+                        actions = URIAction(
+                            
+                            
+                            
+                            label = "伯朗咖啡",
+                            url="https://www.mrbrown.com.tw/",
+                            )
+                        )
+                    ImageCarouselColumn(
+                        image_url="https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg"
+                        actions = URIAction(
+                            
+                            label = "伯朗咖啡",
+                            url="https://www.mrbrown.com.tw/",
+                            )
+                        )
+                    ]
+                )
+            )
+        line_bot_api.reply_message(event.replay_token,image template)
+                
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     # line_bot_api.reply_message(
     #     event.reply_token,
     #     TextSendMessage(text="hi"))
